@@ -1,0 +1,22 @@
+{
+  "name": "baat-cheet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --prefix ./Backend && npm install --prefix ./Frontend && npm run build --prefix ./Frontend && npm run build --prefix ./Backend",
+    "start": "npm run start --prefix ./Backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rick-x64/baat-cheet.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Rick-x64/baat-cheet/issues"
+  },
+  "homepage": "https://github.com/Rick-x64/baat-cheet#readme"
+}
