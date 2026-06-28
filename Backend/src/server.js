@@ -12,20 +12,22 @@ import path from "path";
 dotenv.config();
 const app = express();
 const __dirname = path.resolve();
+const FRONTEND_DIST = path.resolve(__dirname, "../../Frontend/dist");
 
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 
-console.log(process.env.port);
+console.log("Server port:", PORT);
 
+app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageroutes);
 
-//make ready for production
+// make ready for production
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../Frontend/dist")))
+    app.use(express.static(FRONTEND_DIST));
     app.get("*", (_, res) => {
-        res.sendFile(path.join(__dirname, "../Frontend", "dist", "index.html"));
+        res.sendFile(path.join(FRONTEND_DIST, "index.html"));
     });
 }
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+app.listen(PORT, "0.0.0.0", () => console.log(`Server is running on port ${PORT}`));
