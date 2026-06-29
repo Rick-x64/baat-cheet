@@ -4,21 +4,28 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.route.js";
 import messageroutes from "./routes/message.route.js";
 import path from "path";
+import { connect } from "http2";
+import { connectDB } from "./lib/db.js";
 
 
 
 
 
 dotenv.config();
+console.log(process.env.JWT_SECRET);
 const app = express();
 const __dirname = path.resolve();
 const FRONTEND_DIST = path.resolve(__dirname, "../../Frontend/dist");
 
+
 const PORT = process.env.PORT || 3000;
+
+
 
 console.log("Server port:", PORT);
 
-app.use(express.json());
+app.use(express.json()); //req.body
+
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageroutes);
 
@@ -30,4 +37,8 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
-app.listen(PORT, "0.0.0.0", () => console.log(`Server is running on port ${PORT}`));
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server is running on port ${PORT}`);
+    connectDB()
+
+});
