@@ -7,11 +7,11 @@ import fs from "fs";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
 
+const app = express();
 app.get("/health", (req, res) => {
     res.json({ ok: true });
 });
 
-const app = express();
 const __dirname = path.resolve();
 const FRONTEND_DIST = path.resolve(__dirname, "../../Frontend/dist");
 
