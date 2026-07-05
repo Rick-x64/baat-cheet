@@ -3,12 +3,8 @@ import express from "express";
 import authRoutes from "./routes/auth.route.js";
 import messageroutes from "./routes/message.route.js";
 import path from "path";
-import { connect } from "http2";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
-
-
-
 
 
 console.log(ENV.JWT_SECRET);
@@ -36,8 +32,7 @@ if (ENV.NODE_ENV === "production") {
     });
 }
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, "0.0.0.0", async () => {
     console.log(`Server is running on port ${PORT}`);
-    connectDB()
-
+    await connectDB();
 });
