@@ -10,7 +10,7 @@ import { ENV } from "./lib/env.js";
 
 const app = express();
 
-const FRONTEND_DIST = path.join(process.cwd(), "Frontend", "dist");
+const FRONTEND_DIST = path.join(process.cwd(), "..", "Frontend", "dist");
 
 console.log("Current working directory:", process.cwd());
 console.log("Frontend dist:", FRONTEND_DIST);
