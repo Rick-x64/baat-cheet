@@ -8,19 +8,32 @@ import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
 
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const FRONTEND_DIST = path.resolve(__dirname, "../../Frontend/dist");
+
 app.get("/health", (req, res) => {
     res.json({ ok: true });
 });
-
-const __dirname = path.resolve();
-const FRONTEND_DIST = path.resolve(__dirname, "../../Frontend/dist");
-
 const PORT = ENV.PORT || 3000;
 
 app.use(express.json()); // req.body
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageroutes);
+
+//cors
+
+import cors from "cors";
+
+app.use(cors({
+    origin: ENV.CLIENT_URL,
+    credentials: true,
+}));
+
+app.use(express.json());
 
 // Serve frontend if built (works in production or when dist is present)
 if (fs.existsSync(FRONTEND_DIST)) {
