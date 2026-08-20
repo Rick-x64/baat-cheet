@@ -2,6 +2,7 @@
 import express from "express";
 import authRoutes from "./routes/auth.route.js";
 import messageroutes from "./routes/message.route.js";
+import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
@@ -22,6 +23,7 @@ app.get("/health", (req, res) => {
 const PORT = ENV.PORT || 3000;
 
 app.use(express.json()); // req.body
+app.use(cookieParser()); // req.cookies
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageroutes);
