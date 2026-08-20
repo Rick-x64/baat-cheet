@@ -9,5 +9,8 @@ export const ENV = {
     EMAIL_FROM: process.env.EMAIL_FROM,
     EMAIL_FROM_NAME: process.env.EMAIL_FROM_NAME,
     MONGO_URL: process.env.MONGO_URL,
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
     // Add other environment variables as needed
 };

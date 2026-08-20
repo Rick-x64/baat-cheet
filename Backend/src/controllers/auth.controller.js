@@ -4,6 +4,7 @@ import { generateToken } from "../lib/utils.js";
 //import express from "express";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
 import { ENV } from "../lib/env.js";
+import cloudinary from "../lib/cloudinary.js";
 
 
 
@@ -109,3 +110,22 @@ export const logout = async (_, res) => {
     res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "Logged out successfully" });
 }
+
+export const updateProfile = async (req, res) => {
+    try {
+        const { profilePic } = req.body;
+        if (!profilePic) return res.status(400).json({ message: "Profile picture URL is required" });
+
+        const userId = req.user._id; // Assuming you have user authentication middleware that sets req.user
+
+        const uploadResponse = await cloudinary.uploader.upload(profilePic)
+
+        const updatedUser = await User.findByIdAndUpdate(userId, { profilePic: uploadResponse.secure_url }, { new: true });
+
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error("Error updating profile:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}; // Assuming you have user authentication middleware that sets req.user
