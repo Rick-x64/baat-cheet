@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import Message from "../models/message.js";
 import cloudinary from "../lib/cloudinary.js"; // Import your cloudinary configuration
+import { set } from "mongoose";
 
 
 export const getAllContacts = async (req, res) => {
@@ -76,7 +77,19 @@ export const getChatPartners = async (req, res) => {
             $or: [{ senderId: loggedInUserId }, { receiverId: loggedInUserId }],
         });
 
-        // const chatPartnerIds 
+        const chatPartnerIds = [
+            ...new Set(
+                messages.map((msg) =>
+                    msg.senderId.toString() === loggedInUserId.toString()
+                        ? msg.receiverId.toString()
+                        : msg.senderId.toString()
+                )
+            ),
+        ];
+
+        const chatPartners = await User.find({ _id: { $in: chatPartnerIds } }).select("-password");
+
+        res.status(200).json(chatPartners);
     } catch (error) {
         console.log("Error fetching chat partners:", error.message);
         res.status(500).json({ error: "Server error" });
