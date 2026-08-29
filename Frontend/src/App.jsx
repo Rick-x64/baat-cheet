@@ -5,9 +5,6 @@ import SignUpPage from "./pages/SignUpPage";
 import { useAuthStore } from "./store/useAuthStore";
 
 function App() {
-  const { authUser, login, isLoggedIn } = useAuthStore()
-  console.log("authUser :", authUser)
-  console.log("isLoggedIn :", isLoggedIn)
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-slate-900 text-white relative p-4 overflow-hidden">
