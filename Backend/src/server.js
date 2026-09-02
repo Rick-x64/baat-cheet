@@ -8,6 +8,7 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
+import cors from "cors";
 
 const app = express();
 
@@ -22,7 +23,13 @@ app.get("/health", (req, res) => {
 });
 const PORT = ENV.PORT || 3000;
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://baat-cheet-8trzu.sevalla.app"
+];
+
 app.use(express.json()); // req.body
+app.use(cors({ origin: allowedOrigins, credentials: true })); // Enable CORS for the frontend ,origin: ENV.CLIENT_URL
 app.use(cookieParser()); // req.cookies
 
 app.use("/api/auth", authRoutes);
@@ -30,12 +37,12 @@ app.use("/api/messages", messageroutes);
 
 //cors
 
-import cors from "cors";
+// import cors from "cors";
 
-app.use(cors({
-    origin: ENV.CLIENT_URL,
-    credentials: true,
-}));
+// app.use(cors({
+//     origin: ENV.CLIENT_URL,
+//     credentials: true,
+// }));
 
 app.use(express.json());
 
