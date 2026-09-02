@@ -7,14 +7,14 @@ import { Link } from "react-router";
 
 function SignUpPage() {
     const [formData, setFormData] = useState({ fullName: "", email: "", password: "" });
-    const { signup, isSigningUp } = useAuthStore()
+    const { signup, isSigningUp } = useAuthStore();
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         signup(formData);
-    }
+    };
 
 
     return <div className="w-full flex items-center justify-center p-4 bg-slate-900 ">
@@ -68,7 +68,7 @@ function SignUpPage() {
                                         <LockIcon className="auth-input-icon" />
 
                                         <input type="password"
-                                            value={formData.password}
+                                            value={formData.password} j
                                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                             className="input"
                                             placeholder="Enter your password"
@@ -90,6 +90,21 @@ function SignUpPage() {
                                 <Link to="/login" className="auth-link">
                                     Already have an account? Login
                                 </Link>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* right side */}
+                    <div className="hidden md:w-1/2 md:flex  items-center justify-center p-6  bg-gradient-to-bl from-slate-800/20  to transparent">
+                        <div>
+                            <img src="/signup.png" alt="People using mobile device" className="w-full h-auto object-contain" />
+                            <div className="mt-6 text-center">
+                                <h3 className="text-xl font-medium text-cyan-400"> Start Your Journey Today</h3>
+                                <div className="mt-4 flex justify-center gap-4">
+                                    <span className="auth-badge">Free</span>
+                                    <span className="auth-badge">Easy Setup</span>
+                                    <span className="auth-badge">Private</span>
+                                </div>
                             </div>
                         </div>
                     </div>
