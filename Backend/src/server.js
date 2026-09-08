@@ -28,7 +28,7 @@ const allowedOrigins = [
     "https://baat-cheet-8trzu.sevalla.app"
 ];
 
-app.use(express.json()); // req.body
+app.use(express.json({ limit: "10mb" })); // req.body
 app.use(cors({ origin: allowedOrigins, credentials: true })); // Enable CORS for the frontend ,origin: ENV.CLIENT_URL
 app.use(cookieParser()); // req.cookies
 
