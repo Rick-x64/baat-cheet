@@ -8,6 +8,8 @@ export const useAuthStore = create((set) => ({
     isCheckingAuth: true,
     isSigningUp: false,
     isLoggingIn: false,
+    onlineUsers: [],
+    // isLoadingProfileImage: false,
 
 
     checkAuth: async () => {
@@ -76,8 +78,8 @@ export const useAuthStore = create((set) => ({
             set({ authUser: res.data });
             toast.success("Profile updated successfully");
         } catch (error) {
-            console.log("Error uploading profile image:", error);
-            toast.error(error.response.data.message);
+            console.error("Error uploading profile image:", error);
+            toast.error(error.response?.data?.message || "failed to upload profile image");
         }
     }
 }));
