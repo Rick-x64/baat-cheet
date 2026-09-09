@@ -31,7 +31,7 @@ export const getMessagesByUserId = async (req, res) => {
         res.status(200).json(messages);
         // const messages = await Message.find({ $or: [{ sender: req.user._id, receiver: myId }, { sender: myId, receiver: req.user._id }] }).populate("sender receiver", "name email");
 
-        res.status(200).json(messages);
+        // res.status(200).json(messages);
     } catch (error) {
         console.log("Error fetching messages:", error.message);
         res.status(500).json({ error: "Server error" });

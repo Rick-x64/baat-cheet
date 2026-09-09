@@ -37,7 +37,7 @@ export const useAuthStore = create((set) => ({
             toast.success("Account created successfully! Welcome to Baat-Cheet.");
         } catch (error) {
             // console.error("Error creating account:", error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Something went wrong");
         } finally {
             set({ isSigningUp: false });
         }
@@ -53,7 +53,7 @@ export const useAuthStore = create((set) => ({
             toast.success("Logged In successfully");
         } catch (error) {
             // console.error("Error creating account:", error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "something went wrong");
         } finally {
             set({ isLoggingIn: false });
         }
