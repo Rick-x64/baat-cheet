@@ -9,8 +9,8 @@ import fs from "fs";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
 import cors from "cors";
-
-const app = express();
+import { app, server } from "./lib/socket.js";
+// const app = express();
 
 const FRONTEND_DIST = path.join(process.cwd(), "..", "Frontend", "dist");
 
@@ -61,7 +61,7 @@ if (fs.existsSync(FRONTEND_DIST)) {
 const start = async () => {
     try {
         await connectDB();
-        app.listen(PORT, "0.0.0.0", () => {
+        server.listen(PORT, "0.0.0.0", () => {
             console.log(`Server is running on port ${PORT}`);
         });
     } catch (error) {
