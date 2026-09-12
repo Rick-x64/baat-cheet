@@ -2,40 +2,42 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { ENV } from "../lib/env.js";
 
-
 export const socketAuthMiddleware = async (socket, next) => {
     try {
+        // extract token from http-only cookies
         const token = socket.handshake.headers.cookie
             ?.split("; ")
-            .find((row) => row.startWith("jwt="))
+            .find((row) => row.startsWith("jwt="))
             ?.split("=")[1];
 
         if (!token) {
-            console.log("Socket authentication failed: No token provided");
-            return next(new Error("Authentication error: No token provided"));
+            console.log("Socket connection rejected: No token provided");
+            return next(new Error("Unauthorized - No Token Provided"));
         }
+
         // verify the token
         const decoded = jwt.verify(token, ENV.JWT_SECRET);
-        if (!decoded || !decoded.userId) {
-            console.log("Socket authentication failed: Invalid token");
-            return next(new Error("Authentication error: Invalid token"));
+        if (!decoded) {
+            console.log("Socket connection rejected: Invalid token");
+            return next(new Error("Unauthorized - Invalid Token"));
         }
 
+        // find the user fromdb
         const user = await User.findById(decoded.userId).select("-password");
         if (!user) {
-            console.log("Socket authentication failed: User not found");
-            return next(new Error("Authentication error: User not found"));
+            console.log("Socket connection rejected: User not found");
+            return next(new Error("User not found"));
         }
 
-        socket.user = user; // Attach user to socket object
-        socket.userId = user._id.toString(); // Attach userId to socket object
+        // attach user info to socket
+        socket.user = user;
+        socket.userId = user._id.toString();
 
-        console.log(`Socket authentication successful for user: ${user.fullName} (${user._id})`);
-        next(); // Proceed to the next middleware or event handler
+        console.log(`Socket authenticated for user: ${user.fullName} (${user._id})`);
 
-
+        next();
     } catch (error) {
-        console.error("Socket authentication error:", error);
-        next(new Error("Authentication error: " + error.message));
+        console.log("Error in socket authentication:", error.message);
+        next(new Error("Unauthorized - Authentication failed"));
     }
 };
