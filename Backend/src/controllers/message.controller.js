@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import Message from "../models/message.js";
 import cloudinary from "../lib/cloudinary.js"; // Import your cloudinary configuration
 import { set } from "mongoose";
+import { getReceiverSocketId, io } from "../lib/socket.js";
 
 
 export const getAllContacts = async (req, res) => {
@@ -74,6 +75,11 @@ export const sendMessage = async (req, res) => {
 
         await newMessage.save();
         // TODO: Emit the message to the receiver using Socket.IO or any other real-time communication method if needed
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
+
 
 
         res.status(201).json(newMessage);
